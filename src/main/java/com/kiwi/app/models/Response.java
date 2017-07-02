@@ -1,4 +1,4 @@
-package com.kiwi.app.bean;
+package com.kiwi.app.models;
 
 import java.util.List;
 import java.util.Map;

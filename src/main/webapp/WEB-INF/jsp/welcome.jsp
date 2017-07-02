@@ -5,6 +5,7 @@
 <html lang="en">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
 	<script src="/js/jquery-3.2.1.min.js" ></script>
 
 	<%--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">--%>
@@ -74,6 +75,27 @@
 	<div border-style="bottom" class="vui-border">
 		<div class="goods-shelf" style="">
 			<div grid-style="responsive" class="shelf-list vui-grid">
+
+				<c:forEach var="product" items="${products}">
+					<div class="shelf-item vui-grid-1-2">
+						<a href="/goods/60845/" class="goods-item"
+						   data-log="cls=已上架&amp;pos=0&amp;neighbor_url_list=[&quot;/goods/60845/&quot;,&quot;/goods/30535/&quot;]">
+							<div cover-style="square" class="vui-cover">
+								<div class="vui-cover-cnt"><img
+										src="${product.img_url}"
+										alt="三顿半 | 第2代精品冷萃奶萃咖啡套装 带滤泡杯" class="cover"></div>
+							</div>
+							<div class="goods-info">
+								<div class="goods-name vui-line2"><!---->
+									${product.name}
+								</div>
+								<div class="goods-foreword vui-line1">「MORNING CALL」 &amp; 「DAILY LATTE」专属拼配</div>
+								<div><span class="goods-price"><em class="rmb-symbol">¥ </em> <em>59</em></span> <span
+										class="sales-info">已售 2442</span></div>
+							</div>
+						</a>
+					</div>
+				</c:forEach>
 				<div class="shelf-item vui-grid-1-2">
 					<a href="/goods/60845/" class="goods-item"
 					   data-log="cls=已上架&amp;pos=0&amp;neighbor_url_list=[&quot;/goods/60845/&quot;,&quot;/goods/30535/&quot;]">
@@ -92,6 +114,7 @@
 						</div>
 					</a>
 				</div>
+
 				<div class="shelf-item vui-grid-1-2">
 					<a href="/goods/30535/" class="goods-item"
 					   data-log="cls=已上架&amp;pos=1&amp;neighbor_url_list=[&quot;/goods/60845/&quot;,&quot;/goods/30535/&quot;,&quot;/goods/34418/&quot;]">

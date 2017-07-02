@@ -1,9 +1,15 @@
 package com.kiwi.app.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kiwi.app.bean.Response;
+import com.kiwi.app.dao.ProductDao;
+import com.kiwi.app.dao.UserDao;
+import com.kiwi.app.models.Product;
+import com.kiwi.app.models.Response;
+import com.kiwi.app.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
@@ -24,29 +30,42 @@ public class App {
     @Qualifier("adsJdbcTemplate")
     protected JdbcTemplate mysql;
 
+    @Autowired
+    protected UserDao userDao;
+
+    @Autowired
+    protected ProductDao productDao;
+
+    /**
+     * GET /create  --> Create a new user and save it in the database.
+     */
+    @RequestMapping("/create")
+    @ResponseBody
+    public String create( String name) {
+        String userId = "";
+        try {
+            User user = new User( name);
+            userDao.save(user);
+            userId = String.valueOf(user.getId());
+        }
+        catch (Exception ex) {
+            return "Error creating the user: " + ex.toString();
+        }
+        return "User succesfully created with id = " + userId;
+    }
+
+
     @RequestMapping(value = "/product/list", method = RequestMethod.GET)
     public String queryDashboard() {
 
-        Response res = new Response();
+        List<Product> products = productDao.findTop10(0, 1);
 
+        ObjectMapper mapper = new ObjectMapper();
         try {
-            String sql_str = "select * from product";
-            List<Map<String, Object>> data = mysql.queryForList(sql_str);
-            res.setData(data);
-            res.setStatus(200);
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.writeValueAsString(res);
-        } catch (Exception e) {
-            res.setMessage("处理错误，请联系管理员");
-            res.setStatus(500);
-            ObjectMapper mapper = new ObjectMapper();
-            try {
-                return mapper.writeValueAsString(res);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                return "error";
-            }
-
+            return mapper.writeValueAsString(products);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "error";
         }
     }
 }
