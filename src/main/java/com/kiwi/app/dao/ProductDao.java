@@ -18,5 +18,5 @@ public interface ProductDao extends JpaRepository<Product, Long> {
 
     @Query(value = "SELECT * FROM Product LIMIT ?1, ?2 ",
             nativeQuery = true)
-    List<Product> findTop10(int start, int limit);
+    List<Product> findNextPage(int start, int limit);
 }

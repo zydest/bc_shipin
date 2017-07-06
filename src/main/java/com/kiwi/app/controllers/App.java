@@ -4,19 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kiwi.app.dao.ProductDao;
 import com.kiwi.app.dao.UserDao;
 import com.kiwi.app.models.Product;
-import com.kiwi.app.models.Response;
 import com.kiwi.app.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by yue on 17/6/26.
@@ -58,7 +54,7 @@ public class App {
     @RequestMapping(value = "/product/list", method = RequestMethod.GET)
     public String queryDashboard() {
 
-        List<Product> products = productDao.findTop10(0, 1);
+        List<Product> products = productDao.findNextPage(0, 1);
 
         ObjectMapper mapper = new ObjectMapper();
         try {
